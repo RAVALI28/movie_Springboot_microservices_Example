@@ -1,5 +1,7 @@
 package com.springboot.microservices.Service;
 
+import com.springboot.microservices.Exception.DataNotFoundException;
+import com.springboot.microservices.Exception.InvalidDataException;
 import com.springboot.microservices.Model.Movie;
 import com.springboot.microservices.Repository.MovieRepository;
 import jakarta.transaction.Transactional;
@@ -20,7 +22,7 @@ public class MovieService {
     //Create
     public Movie create(Movie movie){
         if(movie == null){
-            throw new RuntimeException("Invalid Movie");
+            throw new InvalidDataException("Invalid Movie: null");
         }
 
        return movieRepository.save(movie);
@@ -29,13 +31,13 @@ public class MovieService {
     //Read
     public Movie read(long id){
        return movieRepository.findById(id)
-               .orElseThrow(() -> new RuntimeException("Movie not found"));
+               .orElseThrow(() -> new DataNotFoundException("Movie not found with id:" +id));
     }
 
     //Update
     public void update(Long id, Movie movie){
         if(movie == null || id == null){
-            throw new RuntimeException("Invalid movie");
+            throw new InvalidDataException("Invalid movie : null");
         }
 
         //Check if exists
@@ -47,7 +49,7 @@ public class MovieService {
             movieRepository.save(existedMovie);
         }
         else {
-            throw new RuntimeException("Movie not found");
+            throw new DataNotFoundException("Movie not found with id:" +id);
         }
 
     }
@@ -58,7 +60,7 @@ public class MovieService {
             movieRepository.deleteById(id);
         }
         else {
-            throw new RuntimeException("Movie not found");
+            throw new DataNotFoundException("Movie not found with id:" +id);
         }
     }
 }
