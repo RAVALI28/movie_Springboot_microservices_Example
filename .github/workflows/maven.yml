@@ -31,7 +31,7 @@ jobs:
       env: 
         DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
         DOCKERHUB_PWD: ${{ secrets.DOCKERHUB_PWD }}
-      run: mvn -B spring-boot:build_image -DskipTests
+      run: mvn -B spring-boot:build-image -DskipTests
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
